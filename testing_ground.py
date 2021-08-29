@@ -245,7 +245,85 @@ message_body = "Hi john, your customized news for today is ready"
 result = push_service.notify_topic_subscribers(topic_name="all", message_title=message_title, message_body=message_body)
 '''
 
+'''
+import requests
+from bs4 import BeautifulSoup
+
+def so():
+    url='https://www.amazon.com/dp/B08HR5SXPS/?coliid=IHXESHSBC60PX&colid=6GEW9TQ8VS1D&psc=0&ref_=lv_vv_lig_dp_it'
+    headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+
+    r = requests.get(url, headers=headers)
+    print(r.status_code)
+                
+    soup = BeautifulSoup(r.content, 'lxml')
+    cards = soup.find_all('div', {'id': 'dp','class': 'pc en_US' })
+    for card in cards:
+        try:
+            price = card.find('span', class_='a-size-medium a-color-price').text.strip(',').strip()
+        except:
+            price = ''
+        else:
+            price = ''.join(price.split(','))
+            print(price)
+        try:
+            title = card.find('span', class_='a-size-large product-title-word-break').text.strip()
+        except:
+            title = ''
+        else:
+            title = ''.join(title.split(','))
+            print(title)
+
+        try:
+            rating = card.find('span', class_='a-icon-alt').text.strip()
+        except:
+            rating = ''
+        else:
+            rating = ''.join(rating.split(','))    
+            print (rating)
+            print("Done Scraping")
+'''
+
+
+cards=["rtx3090","rtx3080","rtx3070","rtx3060","rx6900","rx6800","rx6700"]
+
+for card in cards:
+    if card[0:3] == "rtx":
+        print("nvidia card")
+    else:
+        print("amd card")
+
+'''
+
+
+url='https://www.amazon.com/dp/B08HR5SXPS/?coliid=IHXESHSBC60PX&colid=6GEW9TQ8VS1D&psc=0&ref_=lv_vv_lig_dp_it'
+
+r = requests.get(url)
+
+print(r.status_code)
+
+soup = BeautifulSoup(r.content,"html.parser")
+
+price = soup.find('class_=a-size-medium a-color-price').get_text()
+
+def getTimeAlasr():
+    return price
+
+dd = getTimeAlasr()
+print(dd)
 
 
 
 
+
+URL = 'https://www.amazon.com/dp/B08HR5SXPS/?coliid=IHXESHSBC60PX&colid=6GEW9TQ8VS1D&psc=0&ref_=lv_vv_lig_dp_it' 
+#headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'}
+
+page = requests.get(URL)
+
+soup = BeautifulSoup(page.content, "lxml")
+
+title = soup.find(class_="a-size-medium a-color-price").get_text()#'span', class_='a-size-medium a-color-base a-text-normal').get_text()
+print(title)
+
+'''
